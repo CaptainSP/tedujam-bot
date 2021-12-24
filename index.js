@@ -70,6 +70,6 @@ app.post("/notice", (req, res) => {
     res.send("Success");
 });
 
-app.listen(80, () => {
+app.listen((process.env.PORT || 3000), () => {
     console.log('HTTP server running on port 80');
 });
