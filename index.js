@@ -43,6 +43,10 @@ const app = express();
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+    res.send("Hello!");
+});
+
 const colors = [
     "#F05454",
     "#F5F5F5",
