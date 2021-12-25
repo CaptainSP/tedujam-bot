@@ -14,6 +14,7 @@ client.on('ready', () => {
 
 });
 
+
 let channel = null;
 
 client.on('message', msg => {
@@ -57,20 +58,31 @@ const colors = [
     "#344CB7",
     "#79018C"
 ]
+let interval = null
 app.post("/notice", (req, res) => {
-    const { body } = req;
-    if (channel != null) {
-        //channel.send(body.title + "\n\n" + body.url);
-        const embed = new Discord.MessageEmbed() //Ver 11.5.1 of Discord.js
-            .setTitle(body.title)
-            .setColor(colors[Math.floor(Math.random() * colors.length)])
-            .setURL(body.url)
-            .setFooter("İzlemek için tıklayın.")
-            //.addField("This is a field", "this is its description")
-            .setThumbnail(body.image);
-        // .setThumbnail("https://cdn.discordapp.com/avatars/449250687868469258/1709ab4f567c56eaa731518ff621747c.png?size=2048")
-        channel.send({ embeds: [embed] });
-    }
+
+    interval = setInterval(() => {
+        if (client.isReady()) {
+            client.channels.fetch("920248158762705006").then(channel => {
+                const { body } = req;
+                if (channel != null) {
+                    //channel.send(body.title + "\n\n" + body.url);
+                    const embed = new Discord.MessageEmbed() //Ver 11.5.1 of Discord.js
+                        .setTitle(body.title)
+                        .setColor(colors[Math.floor(Math.random() * colors.length)])
+                        .setURL(body.url)
+                        .setFooter("İzlemek için tıklayın.")
+                        //.addField("This is a field", "this is its description")
+                        .setThumbnail(body.image);
+                    // .setThumbnail("https://cdn.discordapp.com/avatars/449250687868469258/1709ab4f567c56eaa731518ff621747c.png?size=2048")
+                    channel.send({ embeds: [embed] });
+                }
+
+            }).catch(err => console.log)
+            clearInterval(interval)
+        }
+    }, 1000);
+
     res.send("Success");
 });
 
