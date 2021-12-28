@@ -1,6 +1,8 @@
 require('dotenv').config(); //initialize dotenv
 const Discord = require('discord.js'); //import discord.js
 
+const titles = [];
+
 const client = new Discord.Client({
     intents: [
         Discord.Intents.FLAGS.GUILD_MESSAGES,
@@ -39,6 +41,7 @@ client.on('message', msg => {
 client.login(process.env.CLIENT_TOKEN);
 
 const express = require('express');
+const { send } = require('express/lib/response');
 
 const app = express();
 
@@ -61,10 +64,22 @@ const colors = [
 let interval = null
 app.post("/notice", (req, res) => {
 
-    interval = setInterval(() => {
-        if (client.isReady()) {
+
+    send(req)
+
+    res.send("Success");
+});
+
+app.listen((process.env.PORT || 3000), () => {
+    console.log('HTTP server running on port 80');
+});
+
+function send(req) {
+    if (client.isReady()) {
+        const { body } = req;
+        if (!titles.includes(body.title)) {
             client.channels.fetch("920248158762705006").then(channel => {
-                const { body } = req;
+
                 if (channel != null) {
                     //channel.send(body.title + "\n\n" + body.url);
                     const embed = new Discord.MessageEmbed() //Ver 11.5.1 of Discord.js
@@ -79,13 +94,12 @@ app.post("/notice", (req, res) => {
                 }
 
             }).catch(err => console.log)
-            clearInterval(interval)
+            titles.push(body.title)
         }
-    }, 1000);
-
-    res.send("Success");
-});
-
-app.listen((process.env.PORT || 3000), () => {
-    console.log('HTTP server running on port 80');
-});
+        clearInterval(interval)
+    } else {
+        setTimeout(() => {
+            send(req)
+        }, 1000)
+    }
+}
