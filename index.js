@@ -65,7 +65,7 @@ let interval = null
 app.post("/notice", (req, res) => {
 
 
-    send(req)
+    sendNotice(req)
 
     res.send("Success");
 });
@@ -74,7 +74,7 @@ app.listen((process.env.PORT || 3000), () => {
     console.log('HTTP server running on port 80');
 });
 
-function send(req) {
+function sendNotice(req) {
     if (client.isReady()) {
         const { body } = req;
         if (!titles.includes(body.title)) {
@@ -96,10 +96,10 @@ function send(req) {
             }).catch(err => console.log)
             titles.push(body.title)
         }
-        clearInterval(interval)
+
     } else {
         setTimeout(() => {
-            send(req)
+            sendNotice(req)
         }, 1000)
     }
 }
