@@ -17,21 +17,20 @@ client.on('ready', () => {
 });
 
 
-let channel = null;
+let channels = [];
 
 client.on('message', msg => {
     if (msg.content === '!startnotifications') {
 
-        if (msg.author.username == "CaptainSP") {
-            channel = msg.channel;
-            msg.channel.send("Yeni bölümleri bildirmeye başlıyorum");
-
-        }
+        //if (msg.author.username == "CaptainSP") {
+        addToChannels(msg.channel);
+        msg.channel.send("Yeni bölümleri bildirmeye başlıyorum.");
+        //}
 
         console.log(msg.author.username);
     } else if (msg.content === "!stopnotifications") {
         if (msg.author.username == "CaptainSP") {
-            channel = null;
+            removeFromChannels(msg.channel);
             msg.channel.send("Bildirimler durduruldu.");
         }
     }
@@ -74,24 +73,36 @@ app.listen((process.env.PORT || 3000), () => {
     console.log('HTTP server running on port 80');
 });
 
+function addToChannels(channel) {
+    if (!channels.includes(channel)) {
+        channels.push(channel);
+    }
+}
+
+function removeFromChannels(channel) {
+    if (!channels.includes(channel)) {
+        channels.splice(channels.indexOf(channel), 1);
+    }
+}
+
 function sendNotice(req) {
     if (client.isReady()) {
         const { body } = req;
         if (!titles.includes(body.title)) {
             client.channels.fetch("920248158762705006").then(channel => {
 
-                if (channel != null) {
-                    //channel.send(body.title + "\n\n" + body.url);
-                    const embed = new Discord.MessageEmbed() //Ver 11.5.1 of Discord.js
-                        .setTitle(body.title)
-                        .setColor(colors[Math.floor(Math.random() * colors.length)])
-                        .setURL(body.url)
-                        .setFooter("İzlemek için tıklayın.")
-                        //.addField("This is a field", "this is its description")
-                        .setThumbnail(body.image);
-                    // .setThumbnail("https://cdn.discordapp.com/avatars/449250687868469258/1709ab4f567c56eaa731518ff621747c.png?size=2048")
+                //if (channel != null) {
+                //channel.send(body.title + "\n\n" + body.url);
+                const embed = new Discord.MessageEmbed() //Ver 11.5.1 of Discord.js
+                    .setTitle(body.title)
+                    .setColor(colors[Math.floor(Math.random() * colors.length)])
+                    .setURL(body.url)
+                    .setFooter("İzlemek için tıklayın.")
+                    .setThumbnail(body.image);
+                channels.forEach(channel => {
                     channel.send({ embeds: [embed] });
-                }
+                })
+
 
             }).catch(err => console.log)
             titles.push(body.title)
