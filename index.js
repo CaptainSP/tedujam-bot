@@ -114,9 +114,9 @@ function sendNotice(req) {
           },
         })
         .then((data) => {
-          data.forEach((channel_id) => {
+          data.forEach((ch) => {
             client.channels
-              .fetch(channel_id)
+              .fetch(ch.channel_id)
               .then((channel) => {
                 //if (channel != null) {
                 //channel.send(body.title + "\n\n" + body.url);
