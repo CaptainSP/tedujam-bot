@@ -1,7 +1,6 @@
 require("dotenv").config(); //initialize dotenv
 const { default: axios } = require("axios");
 const Discord = require("discord.js"); //import discord.js
-const axios = require("axios").default;
 
 const titles = [];
 
