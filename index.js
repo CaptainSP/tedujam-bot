@@ -66,14 +66,23 @@ app.listen(process.env.PORT || 3000, () => {
 
 function addToChannels(channel) {
   axios
-    .post("https://animecix.net/secure/discord-add-channel", {
-      channel_id: channel,
-    })
+    .post(
+      "https://animecix.net/api/v1/discord-add-channel",
+      {
+        channel_id: channel,
+      },
+      {
+        headers: {
+          Authorization: "Bearer 23|aeLDTYnHwlnCqH5TnhguUPGv9Uj5E98uExAewI0z",
+        },
+      }
+    )
     .then((data) => {
       console.log("add", data);
-    }).catch(err => {
-        console.log(err);
-    });;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 function removeFromChannels(channel) {
@@ -81,11 +90,16 @@ function removeFromChannels(channel) {
     channels.splice(channels.indexOf(channel), 1);
   }*/
   axios
-    .get("https://animecix.net/secure/discord-delete-channel/" + channel)
+    .get("https://animecix.net/api/v1/discord-delete-channel/" + channel, {
+      headers: {
+        Authorization: "Bearer 23|aeLDTYnHwlnCqH5TnhguUPGv9Uj5E98uExAewI0z",
+      },
+    })
     .then((data) => {
       console.log("delete", data);
-    }).catch(err => {
-        console.log(err);
+    })
+    .catch((err) => {
+      console.log(err);
     });
 }
 
@@ -94,7 +108,11 @@ function sendNotice(req) {
     const { body } = req;
     if (!titles.includes(body.title)) {
       axios
-        .get("https://animecix.net/secure/discord-channels-list")
+        .get("https://animecix.net/api/v1/discord-channels-list", {
+          headers: {
+            Authorization: "Bearer 23|aeLDTYnHwlnCqH5TnhguUPGv9Uj5E98uExAewI0z",
+          },
+        })
         .then((data) => {
           data.forEach((channel_id) => {
             client.channels
