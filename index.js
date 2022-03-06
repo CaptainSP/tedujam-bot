@@ -69,7 +69,7 @@ function addToChannels(channel) {
     .post(
       "https://animecix.net/api/v1/discord-add-channel",
       {
-        channel_id: channel,
+        channel_id: channel.id,
       },
       {
         headers: {
