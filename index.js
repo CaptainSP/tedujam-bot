@@ -71,7 +71,9 @@ function addToChannels(channel) {
     })
     .then((data) => {
       console.log("add", data);
-    });
+    }).catch(err => {
+        console.log(err);
+    });;
 }
 
 function removeFromChannels(channel) {
@@ -82,6 +84,8 @@ function removeFromChannels(channel) {
     .get("https://animecix.net/secure/discord-delete-channel/" + channel)
     .then((data) => {
       console.log("delete", data);
+    }).catch(err => {
+        console.log(err);
     });
 }
 
