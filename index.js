@@ -110,11 +110,11 @@ function sendNotice(req) {
       axios
         .get("https://animecix.net/api/v1/discord-channels-list", {
           headers: {
-            Authorization: "Bearer 23|aeLDTYnHwlnCqH5TnhguUPGv9Uj5E98uExAewI0z",
+            Authorization: "1|E6RGQh3V6qK3fhsansMnCBgUIeTpGTkYcmrQluHn",
           },
         })
         .then((data) => {
-          data.forEach((ch) => {
+          data.data.forEach((ch) => {
             client.channels
               .fetch(ch.channel_id)
               .then((channel) => {
