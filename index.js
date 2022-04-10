@@ -73,7 +73,7 @@ function addToChannels(channel) {
       },
       {
         headers: {
-          Authorization: "Bearer 23|aeLDTYnHwlnCqH5TnhguUPGv9Uj5E98uExAewI0z",
+          Authorization: "Bearer 1|E6RGQh3V6qK3fhsansMnCBgUIeTpGTkYcmrQluHn",
         },
       }
     )
@@ -92,7 +92,7 @@ function removeFromChannels(channel) {
   axios
     .get("https://animecix.net/api/v1/discord-delete-channel/" + channel, {
       headers: {
-        Authorization: "Bearer 23|aeLDTYnHwlnCqH5TnhguUPGv9Uj5E98uExAewI0z",
+        Authorization: "Bearer 1|E6RGQh3V6qK3fhsansMnCBgUIeTpGTkYcmrQluHn",
       },
     })
     .then((data) => {
@@ -111,7 +111,7 @@ function sendNotice(req) {
       axios
         .get("https://animecix.net/api/v1/discord-channels-list", {
           headers: {
-            Authorization: "1|E6RGQh3V6qK3fhsansMnCBgUIeTpGTkYcmrQluHn",
+            Authorization: "Bearer 1|E6RGQh3V6qK3fhsansMnCBgUIeTpGTkYcmrQluHn",
           },
         })
         .then((data) => {
