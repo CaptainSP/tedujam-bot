@@ -104,6 +104,7 @@ function removeFromChannels(channel) {
 }
 
 function sendNotice(req) {
+  console.log("Sending notifications...");
   if (client.isReady()) {
     const { body } = req;
     if (!titles.includes(body.title)) {
@@ -114,7 +115,9 @@ function sendNotice(req) {
           },
         })
         .then((data) => {
+          
           data.data.forEach((ch) => {
+            console.log(ch);
             client.channels
               .fetch(ch.channel_id)
               .then((channel) => {
@@ -128,6 +131,7 @@ function sendNotice(req) {
                   .setThumbnail(body.image);
                 //channels.forEach((channel) => {
                 channel.send({ embeds: [embed] });
+                console.log("Sent to channel.")
                 //});
               })
               .catch((err) => console.log);
